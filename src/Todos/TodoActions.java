@@ -48,7 +48,8 @@ public class TodoActions implements TodoInterface {
         if (todosList.size() > 0) {
             System.out.println("Here is a list of your task: \n");
             todosList.forEach(todo ->
-                    System.out.printf("%d. %s completed: %b", todo.getMenuId(), todo.getText(), todo.getIsCompleted()));
+                    System.out.printf("%d. %s completed: %b\n",
+                            todo.getMenuId(), todo.getText(), todo.getIsCompleted()));
             return;
         }
         System.out.println("No task so far, please add a task.");
