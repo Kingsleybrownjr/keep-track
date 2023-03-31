@@ -11,18 +11,52 @@ public class TodoActions implements TodoInterface {
     private final static List<Todo> todosList = new ArrayList<>();
     private final Scanner scanner = new Scanner(System.in);
 
-    @Override
-    public void addTodo(Todo todo) {
+    public void startApp() {
+        printMenu(true);
+
+        var userInput = new UserInput();
+        var userChoice = userInput.getInitialQuestion();
+
+        var isProgramRunning = true;
+        var currentCount = 1;
+
+        while(isProgramRunning) {
+
+            switch (userChoice) {
+                case 1 -> printTodos();
+                case 2 -> {
+                    var newTodo = new Todo(currentCount++, userInput.getTodoQuestion("newTodo"));
+                    addTodo(newTodo);
+                }
+                case 3 -> {
+                    var todoToEdit = userInput.convertStringToInt(userInput.getTodoQuestion("editTodo"));
+                    editTodo(todoToEdit);
+                }
+                case 4 -> {
+                    var todoToRemove = userInput.convertStringToInt(userInput.getTodoQuestion("removeTodo"));
+                    removeTodo(todoToRemove);
+                }
+                case 5 -> isProgramRunning = false;
+            }
+
+            if(!isProgramRunning) {
+                System.out.println("\nThanks for using Keep Track, Goodbye!");
+                break;
+            }
+            printMenu(false);
+            userChoice = userInput.getInitialQuestion();
+        }
+    }
+
+    private void addTodo(Todo todo) {
         todosList.add(todo);
     }
 
-    @Override
-    public void removeTodo(int menuId) {
+    private void removeTodo(int menuId) {
         todosList.removeIf(todo -> todo.getMenuId() == menuId);
     }
 
-    @Override
-    public void editTodo(int menuId) {
+    private void editTodo(int menuId) {
         System.out.print("Would you like to edit task or complete task, press 1 or 2 accordingly: ");
         var userChoice = Integer.parseInt(scanner.nextLine());
 
@@ -30,21 +64,13 @@ public class TodoActions implements TodoInterface {
             case 1 -> {
                 System.out.print("What would you like to edit the task to?: ");
                 var newTodo = scanner.nextLine();
-
-                todosList.forEach(todo -> {
-                    if (todo.getMenuId() == menuId) {
-                        todo.setText(newTodo);
-                    }
-                });
+                todosList.forEach(todo -> { if (todo.getMenuId() == menuId) todo.setText(newTodo); });
             }
-            case 2 -> todosList.forEach(todo -> {
-                if (todo.getMenuId() == menuId) todo.setCompleted(!todo.getIsCompleted());
-            });
+            case 2 -> todosList.forEach(todo -> { if (todo.getMenuId() == menuId) todo.setCompleted(!todo.getIsCompleted()); });
         }
     }
 
-    @Override
-    public void printTodos() {
+    public static void printTodos() {
         if (todosList.size() > 0) {
             System.out.println("Here is a list of your task: \n");
             todosList.forEach(todo ->
@@ -55,8 +81,7 @@ public class TodoActions implements TodoInterface {
         System.out.println("No task so far, please add a task.");
     }
 
-    @Override
-    public void printMenu(boolean startOfApp) {
+    public static void printMenu(boolean startOfApp) {
         var todoMenu = Arrays.asList(
                 "1. See Todos",
                 "2. Add Todo",

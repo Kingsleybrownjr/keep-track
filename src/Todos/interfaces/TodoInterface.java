@@ -3,9 +3,9 @@ package Todos.interfaces;
 import Todos.Todo;
 
 public interface TodoInterface {
-    public void addTodo(Todo todo);
-    public void removeTodo(int menuId);
-    public void editTodo(int menuId);
-    public void printTodos();
-    public void printMenu(boolean start);
+    private void addTodo(Todo todo) {}
+    private void removeTodo(int menuId) {}
+    private void editTodo(int menuId) {}
+    static void printTodos() {}
+    static void printMenu(boolean start) {}
 }

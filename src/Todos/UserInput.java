@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class UserInput {
     private final Scanner scanner = new Scanner(System.in);
-    private final TodoActions todoActions = new TodoActions();
 
     private int initialQuestion() {
         System.out.print("Which operation you'd like to perform (Use #): ");
@@ -15,7 +14,7 @@ public class UserInput {
         switch (task) {
             case "newTodo" -> System.out.print("\nPlease write in your new task: ");
             case "editTodo" -> {
-                todoActions.printTodos();
+                TodoActions.printTodos();
                 System.out.print("\nWhich task would you like to edit?: ");
             }
             case "removeTodo" -> System.out.print("\nWhich task would you like to remove?: ");
@@ -28,7 +27,7 @@ public class UserInput {
             return Integer.parseInt(userInput);
         } catch(NumberFormatException ex) {
             System.out.println("Please use a corresponding number for your selection\n");
-            todoActions.printMenu(false);
+            TodoActions.printMenu(false);
             return initialQuestion();
         }
     }
